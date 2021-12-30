@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardBackgroundColor="#10000000"
+    app:cardCornerRadius="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/is_app_or_web_image_view"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp"
+            android:background="#20000000"
+            app:layout_constraintBottom_toBottomOf="@id/delete_card"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/delete_card"
+            tools:src="@drawable/is_application_icon_24" />
+
+        <TextView
+            android:id="@+id/service_name_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:text="Service name"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/delete_card"
+            app:layout_constraintLeft_toRightOf="@id/is_app_or_web_image_view"
+            app:layout_constraintRight_toLeftOf="@id/edit_card"
+            app:layout_constraintTop_toTopOf="@id/delete_card" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/delete_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="#00000000"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/delete_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#10000000"
+                android:padding="6dp"
+                android:src="@drawable/ic_baseline_delete_20" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/show_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="#00000000"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/delete_card"
+            app:layout_constraintRight_toLeftOf="@id/delete_card"
+            app:layout_constraintTop_toTopOf="@id/delete_card">
+
+            <ImageView
+                android:id="@+id/show_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#10000000"
+                android:padding="6dp"
+                android:src="@drawable/ic_baseline_show_20" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/edit_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="#00000000"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/show_card"
+            app:layout_constraintRight_toLeftOf="@id/show_card"
+            app:layout_constraintTop_toTopOf="@id/show_card">
+
+            <ImageView
+                android:id="@+id/edit_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#10000000"
+                android:padding="6dp"
+                android:src="@drawable/ic_baseline_edit_20" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/password_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            app:cardBackgroundColor="#08000000"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/is_app_or_web_image_view"
+            app:layout_constraintRight_toRightOf="@id/delete_card"
+            app:layout_constraintTop_toBottomOf="@id/is_app_or_web_image_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/service_password_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:hint="Password"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
