@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/vaish/OneDrive/Documents/GitHub/Save-Pass/app/src/main/res/layout/fragment_pass_list.xml" value="0.25" />
+        <entry key="..\:/Users/vaish/OneDrive/Documents/GitHub/Save-Pass/app/src/main/res/layout/pass_list.xml" value="0.25" />
+        <entry key="..\:/Users/vaish/OneDrive/Documents/GitHub/Save-Pass/app/src/main/res/menu/home_menu.xml" value="0.3145833333333333" />
         <entry key="..\:/Users/vaish/OneDrive/Documents/GitHub/SavePass/app/src/main/res/drawable/ic_baseline_delete_20.xml" value="0.21875" />
         <entry key="..\:/Users/vaish/OneDrive/Documents/GitHub/SavePass/app/src/main/res/drawable/ic_baseline_edit_20.xml" value="0.21875" />
         <entry key="..\:/Users/vaish/OneDrive/Documents/GitHub/SavePass/app/src/main/res/drawable/ic_baseline_remove_red_eye_24.xml" value="0.21875" />
