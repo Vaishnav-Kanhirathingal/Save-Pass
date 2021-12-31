@@ -3,12 +3,23 @@ package com.kenetic.savepass.fragments
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kenetic.savepass.adapters.PassAdapter
 import com.kenetic.savepass.databinding.FragmentPassListBinding
+import com.kenetic.savepass.password.PasswordApplication
+import com.kenetic.savepass.password.PasswordViewModel
+import com.kenetic.savepass.password.PasswordViewModelFactory
 
 class PassListFragment : Fragment() {
+    private val viewModel: PasswordViewModel by activityViewModels {
+        PasswordViewModelFactory(
+            (activity?.application as PasswordApplication).database.passwordDao()
+        )
+    }
     private lateinit var binding: FragmentPassListBinding
 
     private var isLinear = true//todo - change this to be initiated from preferences
@@ -30,6 +41,10 @@ class PassListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = binding.passwordRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+        val adapter: PassAdapter = PassAdapter(true)
+        recyclerView.adapter = adapter
+        //todo - adapter.submitList()
+        //todo - observer
     }
 
     private fun changeLayout() {
@@ -43,7 +58,7 @@ class PassListFragment : Fragment() {
             //todo - set menu icon
             //todo - store preference
         } else {
-            recyclerView.layoutManager = GridLayoutManager(this.requireContext(),2)
+            recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
             //todo - set menu icon
             //todo - store preference
         }
