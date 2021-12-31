@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.kenetic.savepass.databinding.FragmentAddOrEditBinding
 import com.kenetic.savepass.password.PasswordApplication
+import com.kenetic.savepass.password.PasswordData
 import com.kenetic.savepass.password.PasswordViewModel
 import com.kenetic.savepass.password.PasswordViewModelFactory
 
@@ -35,10 +37,28 @@ class AddOrEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.cancelButton.setOnClickListener {
-            //todo - pop fragment and navigate back
+            this.findNavController()
+                .navigate(AddOrEditFragmentDirections.actionAddOrEditFragmentToPassListFragment())
         }
         binding.saveButton.setOnClickListener {
-            //todo - save to database, pop and navigate back
+            //todo - save to database
+            binding.serviceNameEmptyTextView.isVisible =
+                binding.serviceNameEditText.text.isNullOrEmpty()
+            binding.servicePasswordEmptyTextView.isVisible =
+                binding.servicePasswordEditText.text.isNullOrEmpty()
+
+            if (!(binding.servicePasswordEditText.text.isNullOrEmpty() || binding.serviceNameEditText.text.isNullOrEmpty())) {
+                viewModel.insert(
+                    PasswordData(
+                        serviceName = binding.serviceNameEditText.text.toString(),
+                        servicePassword = binding.servicePasswordEditText.text.toString(),
+                        useFingerPrint = binding.fingerprintCheckBox.isChecked,
+                        isAnApplication = binding.applicationServiceRadioButton.isChecked
+                    )
+                )
+                this.findNavController()
+                    .navigate(AddOrEditFragmentDirections.actionAddOrEditFragmentToPassListFragment())
+            }
         }
     }
 }

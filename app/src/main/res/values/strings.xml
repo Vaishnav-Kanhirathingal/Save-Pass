@@ -10,4 +10,5 @@
     <string name="fingerprint_unlock">Use FingerPrint to unlock</string>
     <string name="cancel">Cancel</string>
     <string name="save">save</string>
+    <string name="text_blank">*text blank</string>
 </resources>

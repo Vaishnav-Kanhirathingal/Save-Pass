@@ -14,6 +14,17 @@
         android:hint="@string/service_name"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/service_name_empty_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_blank"
+        android:textColor="#ff0000"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="@id/service_name_edit_text"
+        app:layout_constraintTop_toBottomOf="@id/service_name_edit_text" />
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/service_password_edit_text"
         android:layout_width="0dp"
@@ -23,6 +34,17 @@
         app:layout_constraintLeft_toLeftOf="@id/service_name_edit_text"
         app:layout_constraintRight_toRightOf="@id/service_name_edit_text"
         app:layout_constraintTop_toBottomOf="@id/service_name_edit_text" />
+
+    <TextView
+        android:id="@+id/service_password_empty_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_blank"
+        android:textColor="#ff0000"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="@id/service_password_edit_text"
+        app:layout_constraintTop_toBottomOf="@id/service_password_edit_text" />
 
     <View
         android:id="@+id/ruler_one"
@@ -53,12 +75,14 @@
         app:layout_constraintTop_toBottomOf="@id/select_service_textview">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/internet_service_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/internet_service" />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/application_service_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/application_service" />
