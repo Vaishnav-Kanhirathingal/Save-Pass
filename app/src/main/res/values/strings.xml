@@ -2,4 +2,12 @@
     <string name="app_name">Save Pass</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="service_name">Service name</string>
+    <string name="service_password">Service password</string>
+    <string name="select_service_type">Select service type : -</string>
+    <string name="internet_service">Internet Service</string>
+    <string name="application_service">Application Service</string>
+    <string name="fingerprint_unlock">Use FingerPrint to unlock</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">save</string>
 </resources>

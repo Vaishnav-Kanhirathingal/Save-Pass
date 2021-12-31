@@ -9,5 +9,6 @@ data class PasswordData(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "service_name") var serviceName: String,
     @ColumnInfo(name = "service_password") var servicePassword: String,
-    @ColumnInfo(name = "is_an_application") var isAnApplication: Boolean
+    @ColumnInfo(name = "is_an_application") var isAnApplication: Boolean,
+    @ColumnInfo(name = "use_finger_print") var useFingerPrint:Boolean
 )

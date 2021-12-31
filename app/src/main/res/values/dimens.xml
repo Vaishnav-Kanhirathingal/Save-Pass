@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="vertical_app_margin">20dp</dimen>
+    <dimen name="ruler_thickness">1dp</dimen>
+    <dimen name="corner_radius">4dp</dimen>
+    <dimen name="image_padding">6dp</dimen>
+</resources>

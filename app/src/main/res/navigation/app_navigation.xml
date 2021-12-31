@@ -9,5 +9,19 @@
         android:id="@+id/passListFragment"
         android:name="com.kenetic.savepass.fragments.PassListFragment"
         android:label="fragment_pass_list"
-        tools:layout="@layout/fragment_pass_list" />
+        tools:layout="@layout/fragment_pass_list" >
+        <action
+            android:id="@+id/action_passListFragment_to_addOrEditFragment"
+            app:destination="@id/addOrEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addOrEditFragment"
+        android:name="com.kenetic.savepass.fragments.AddOrEditFragment"
+        android:label="fragment_add_or_edit"
+        tools:layout="@layout/fragment_add_or_edit" >
+        <action
+            android:id="@+id/action_addOrEditFragment_to_passListFragment"
+            app:destination="@id/passListFragment"
+            app:popUpTo="@id/passListFragment" />
+    </fragment>
 </navigation>

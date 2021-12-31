@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,12 +40,19 @@ class PassListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         recyclerView = binding.passwordRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-        val adapter: PassAdapter = PassAdapter(true)
+        val adapter = PassAdapter(true)
         recyclerView.adapter = adapter
-        //todo - adapter.submitList()
-        //todo - observer
+        viewModel.passList.observe(this.viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+
+        binding.addFab.setOnClickListener {
+            val action = PassListFragmentDirections.actionPassListFragmentToAddOrEditFragment()
+            this.findNavController().navigate(action)
+        }
     }
 
     private fun changeLayout() {
