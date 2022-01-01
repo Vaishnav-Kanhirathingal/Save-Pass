@@ -11,7 +11,7 @@ import com.kenetic.savepass.databinding.PassListBinding
 import com.kenetic.savepass.password.PasswordData
 
 
-class PassAdapter(isLinear: Boolean) :
+class PassAdapter() :
     ListAdapter<PasswordData, PassAdapter.PassViewHolder>(diffCallBack) {
 
     class PassViewHolder(val binding: PassListBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -28,19 +28,15 @@ class PassAdapter(isLinear: Boolean) :
             )
             binding.serviceNameTextView.text = passwordData.serviceName
 
-            binding.servicePasswordEditText.isEnabled = verifiedWithPassword
+            binding.servicePasswordTextView.text = passwordData.servicePassword
 
             binding.deleteImageView.setOnClickListener {
-                //todo - check fingerprint and then delete
                 Log.d(TAG, "delete image onClick working")
             }
             binding.showImageView.setOnClickListener {
-                //todo - check fingerprint then show
                 Log.d(TAG, "show image onClick working")
             }
             binding.editImageView.setOnClickListener {
-                //todo - check fingerprint then enable editText to be editable,
-                // change icon to a save icon
                 Log.d(TAG, "edit image onClick working")
             }
         }

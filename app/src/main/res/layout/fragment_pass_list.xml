@@ -4,20 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/recycler_view_background"
     tools:context=".fragments.PassListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/password_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:itemCount="6"
+        tools:itemCount="2"
+        android:layout_marginTop="5dp"
         tools:listitem="@layout/pass_list" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_fab"
         android:layout_width="wrap_content"
+        android:backgroundTint="@color/floating_action_button"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="@dimen/vertical_app_margin"
         android:src="@drawable/add_fab_icon_40"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

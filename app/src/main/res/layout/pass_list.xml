@@ -1,138 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginVertical="4dp"
-    android:layout_marginHorizontal="8dp"
-    app:cardBackgroundColor="#10000000"
-    app:cardCornerRadius="8dp">
+    android:background="@color/transparent"
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        app:cardBackgroundColor="@color/card_background"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/is_app_or_web_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginStart="16dp"
-            android:background="#20000000"
-            app:layout_constraintBottom_toBottomOf="@id/delete_card"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@id/delete_card"
-            tools:src="@drawable/is_application_icon_24" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/service_name_text_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="4dp"
-            android:text="@string/service_name"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/delete_card"
-            app:layout_constraintLeft_toRightOf="@id/is_app_or_web_image_view"
-            app:layout_constraintRight_toLeftOf="@id/edit_card"
-            app:layout_constraintTop_toTopOf="@id/delete_card" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/is_app_or_web_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/card_spacing"
+                android:padding="@dimen/image_padding"
+                app:layout_constraintBottom_toBottomOf="@id/delete_image_view"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/delete_image_view"
+                tools:src="@drawable/is_website_icon_24" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/delete_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            app:cardBackgroundColor="#00000000"
-            app:cardCornerRadius="@dimen/corner_radius"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/service_name_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/card_spacing"
+                android:text="@string/service_name"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/delete_image_view"
+                app:layout_constraintLeft_toRightOf="@id/is_app_or_web_image_view"
+                app:layout_constraintRight_toLeftOf="@id/edit_image_view"
+                app:layout_constraintTop_toTopOf="@id/delete_image_view" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/delete_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#10000000"
+                android:layout_marginTop="@dimen/card_spacing"
+                android:layout_marginEnd="@dimen/card_spacing"
+                android:background="@color/card_foreground"
                 android:padding="@dimen/image_padding"
-                android:src="@drawable/ic_baseline_delete_20" />
+                android:src="@drawable/ic_baseline_delete_20"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/show_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            app:cardBackgroundColor="#00000000"
-            app:cardCornerRadius="@dimen/corner_radius"
-            app:layout_constraintBottom_toBottomOf="@id/delete_card"
-            app:layout_constraintRight_toLeftOf="@id/delete_card"
-            app:layout_constraintTop_toTopOf="@id/delete_card">
-
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/show_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#10000000"
+                android:layout_marginEnd="@dimen/card_spacing"
+                android:background="@color/card_foreground"
                 android:padding="@dimen/image_padding"
-                android:src="@drawable/ic_baseline_show_20" />
+                android:src="@drawable/ic_baseline_show_20"
+                app:layout_constraintBottom_toBottomOf="@id/delete_image_view"
+                app:layout_constraintRight_toLeftOf="@id/delete_image_view"
+                app:layout_constraintTop_toTopOf="@id/delete_image_view" />
 
-        </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/edit_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            app:cardBackgroundColor="#00000000"
-            app:cardCornerRadius="@dimen/corner_radius"
-            app:layout_constraintBottom_toBottomOf="@id/show_card"
-            app:layout_constraintRight_toLeftOf="@id/show_card"
-            app:layout_constraintTop_toTopOf="@id/show_card">
-
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/edit_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#10000000"
+                android:layout_marginEnd="@dimen/card_spacing"
+                android:background="@color/card_foreground"
                 android:padding="@dimen/image_padding"
-                android:src="@drawable/ic_baseline_edit_20" />
+                android:src="@drawable/ic_baseline_edit_20"
+                app:layout_constraintBottom_toBottomOf="@id/delete_image_view"
+                app:layout_constraintRight_toLeftOf="@id/show_image_view"
+                app:layout_constraintTop_toTopOf="@id/delete_image_view" />
 
-        </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/password_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
-            app:cardBackgroundColor="#08000000"
-            app:cardCornerRadius="@dimen/corner_radius"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@id/is_app_or_web_image_view"
-            app:layout_constraintRight_toRightOf="@id/delete_card"
-            app:layout_constraintTop_toBottomOf="@id/is_app_or_web_image_view">
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/card_spacing"
+                app:cardBackgroundColor="@color/card_foreground"
+                app:cardCornerRadius="@dimen/corner_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/is_app_or_web_image_view"
+                app:layout_constraintRight_toRightOf="@id/delete_image_view"
+                app:layout_constraintTop_toBottomOf="@id/is_app_or_web_image_view">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/service_password_edit_text"
-                    android:layout_width="0dp"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/service_password_text_view"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
-                    android:hint="@string/service_password"
-                    android:textColor="@color/black"
+                    android:background="#00000000"
+                    android:padding="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/service_password" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

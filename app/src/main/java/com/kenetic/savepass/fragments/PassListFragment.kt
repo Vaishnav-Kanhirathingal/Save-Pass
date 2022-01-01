@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kenetic.savepass.adapters.PassAdapter
 import com.kenetic.savepass.databinding.FragmentPassListBinding
@@ -42,8 +40,9 @@ class PassListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = binding.passwordRecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-        val adapter = PassAdapter(true)
+        //recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+        recyclerView.layoutManager = GridLayoutManager(this.requireContext(),1)
+        val adapter = PassAdapter()
         recyclerView.adapter = adapter
         viewModel.passList.observe(this.viewLifecycleOwner) {
             adapter.submitList(it)
@@ -62,7 +61,7 @@ class PassListFragment : Fragment() {
 
     private fun setLayoutAndIcon(isLinear: Boolean) {//this is used as the menu icon
         if (isLinear) {
-            recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+            recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 1)
             //todo - set menu icon
             //todo - store preference
         } else {
