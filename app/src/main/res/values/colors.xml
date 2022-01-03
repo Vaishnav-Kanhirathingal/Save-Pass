@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="card_background">#ff9999</color>
     <color name="card_foreground">#ffbbbb</color>
-    <color name="recycler_view_background">#FFB7B7</color>
+    <color name="recycler_view_background">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="floating_action_button">#FB7575</color>
 </resources>

@@ -53,7 +53,8 @@ class AddOrEditFragment : Fragment() {
                         serviceName = binding.serviceNameEditText.text.toString(),
                         servicePassword = binding.servicePasswordEditText.text.toString(),
                         useFingerPrint = binding.fingerprintCheckBox.isChecked,
-                        isAnApplication = binding.applicationServiceRadioButton.isChecked
+                        isAnApplication = binding.applicationServiceRadioButton.isChecked,
+                        access = false
                     )
                 )
                 this.findNavController()

@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PasswordDao {
-
     @Insert
     suspend fun insertPassData(passwordData: PasswordData)
 
@@ -20,5 +19,4 @@ interface PasswordDao {
 
     @Query("SELECT * FROM password_data WHERE ID = :id")
     fun getByIdPassData(id: Int): Flow<PasswordData>
-
 }
