@@ -23,5 +23,27 @@
             android:id="@+id/action_addOrEditFragment_to_passListFragment"
             app:destination="@id/passListFragment"
             app:popUpTo="@id/passListFragment" />
+        <argument
+            android:name="service_name"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="service_password"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="is_an_application"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="use_finger_print"
+            app:argType="boolean"
+            android:defaultValue="true" />
+        <argument
+            android:name="is_being_updated"
+            app:argType="boolean" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
     </fragment>
 </navigation>

@@ -4,7 +4,7 @@ buildscript {
         room_version = '2.4.0'
         nav_version = '2.3.5'
         lifecycle_version = '2.4.0'
-        biometricLibraryVersion = "1.0.1"
+        biometricLibraryVersion = "1.1.0"
     }
     repositories {
         google()

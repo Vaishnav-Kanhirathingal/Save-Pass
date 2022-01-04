@@ -13,9 +13,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.annotation.RestrictTo
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,11 +28,14 @@ import com.kenetic.savepass.password.PasswordData
 import com.kenetic.savepass.password.PasswordViewModel
 import com.kenetic.savepass.password.PasswordViewModelFactory
 import com.kenetic.savepass.password.PassEnum.Access
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PassListFragment : Fragment() {
-    private var access:Access? = null
+    private var access: Access? = null
     private var passData: PasswordData? = null
-    private val TAG = "MainActivity"
+    private val TAG = "PassListFragment"
     private val viewModel: PasswordViewModel by activityViewModels {
         PasswordViewModelFactory(
             (activity?.application as PasswordApplication).database.passwordDao()
@@ -59,10 +64,14 @@ class PassListFragment : Fragment() {
         recyclerView = binding.passwordRecyclerView
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 1)
         //todo - adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter
-        val adapter = PassAdapter(requireContext()) { pass: PasswordData, acc: Access ->
-            access = acc
-            passData = pass
-            verifyFingerPrint()
+        val adapter = PassAdapter{ pass: PasswordData, acc: Access ->
+            if (acc != Access.HIDE) {
+                access = acc
+                passData = pass
+                verifyFingerPrint()
+            } else {
+                viewModel.resetPreviousAccess()
+            }
         }
         recyclerView.adapter = adapter
         viewModel.passList.observe(this.viewLifecycleOwner) {
@@ -70,14 +79,19 @@ class PassListFragment : Fragment() {
         }
 
         binding.addFab.setOnClickListener {
-            val action = PassListFragmentDirections.actionPassListFragmentToAddOrEditFragment()
+            val action =
+                PassListFragmentDirections.actionPassListFragmentToAddOrEditFragment(isBeingUpdated = false, id = 0)
             this.findNavController().navigate(action)
         }
+        viewModel.resetAllAccess()//todo - check validity
     }
 
+    override fun onPause() {
+        viewModel.resetPreviousAccess()
+        super.onPause()
+    }
 
-    //todo - fingerprint---fingerprint---fingerprint---fingerprint---fingerprint---fingerprint---fingerprint
-
+    //todo - fingerprint functions fingerprint functions fingerprint functions fingerprint functions functions functions functions
     private var cancellationSignal: CancellationSignal? = null
     private val authenticationCallback: BiometricPrompt.AuthenticationCallback
         get() =
@@ -91,14 +105,29 @@ class PassListFragment : Fragment() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
                     super.onAuthenticationSucceeded(result)
                     Log.d(TAG, "authentication succeeded")
-                    when(access){
+                    when (access) {
                         Access.SHOW -> viewModel.getAccess(passData!!)
                         Access.EDIT -> {
-                            Log.d(TAG,"edit passData working")
-                            //todo - go to addOrEditFragment, pass passData to the fragment
+                            this@PassListFragment
+                                .findNavController()
+                                .navigate(
+                                    PassListFragmentDirections.actionPassListFragmentToAddOrEditFragment(
+                                        serviceName = passData!!.serviceName,
+                                        servicePassword = passData!!.servicePassword,
+                                        isAnApplication = passData!!.isAnApplication,
+                                        useFingerPrint = passData!!.useFingerPrint,
+                                        isBeingUpdated = true,
+                                        id = passData!!.id
+                                    )
+                                )
+                            //todo - navigate navigate navigate navigate navigate navigate navigate navigate navigate navigate navigate
                         }
-                        Access.DELETE ->viewModel.delete(passData!!)
-                        else ->Toast.makeText(this@PassListFragment.context,"Fatal error has occurred",Toast.LENGTH_SHORT).show()
+                        Access.DELETE -> viewModel.delete(passData!!)
+                        else -> Toast.makeText(
+                            this@PassListFragment.context,
+                            "Fatal error has occurred",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -149,5 +178,4 @@ class PassListFragment : Fragment() {
                 .show()
         }
     }
-    //todo - fingerprint---fingerprint---fingerprint---fingerprint---fingerprint---fingerprint---fingerprint
 }

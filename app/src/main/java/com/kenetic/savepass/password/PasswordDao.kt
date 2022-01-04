@@ -19,4 +19,7 @@ interface PasswordDao {
 
     @Query("SELECT * FROM password_data WHERE ID = :id")
     fun getByIdPassData(id: Int): Flow<PasswordData>
+
+    @Query("UPDATE password_data SET access = 0 WHERE access = 1")
+    fun resetAccessForAll()
 }

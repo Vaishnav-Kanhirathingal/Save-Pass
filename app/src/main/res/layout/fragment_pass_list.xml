@@ -10,14 +10,13 @@
         android:id="@+id/password_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/recycler_view_background"
         tools:itemCount="2"
         tools:listitem="@layout/pass_list" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_fab"
         android:layout_width="wrap_content"
-        android:backgroundTint="@color/floating_action_button"
+        android:backgroundTint="@color/purple_200"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/vertical_app_margin"
         android:src="@drawable/add_fab_icon_40"

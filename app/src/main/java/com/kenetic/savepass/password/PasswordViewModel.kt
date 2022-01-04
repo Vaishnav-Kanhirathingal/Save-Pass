@@ -1,9 +1,14 @@
 package com.kenetic.savepass.password
 
+import android.util.Log
 import androidx.lifecycle.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 class PasswordViewModel(private val passwordDao: PasswordDao) : ViewModel() {
+
     private var previousPassData: PasswordData? = null
     var passList: LiveData<List<PasswordData>> = passwordDao.getAllPassData().asLiveData()
 
@@ -52,7 +57,7 @@ class PasswordViewModel(private val passwordDao: PasswordDao) : ViewModel() {
             if (previousPassData != null) {
                 viewModelScope.launch {
                     passwordDao.updatePassData(previousPassData!!)
-                    previousPassData = null
+                    //previousPassData = null
                 }
             }
             passwordDao.updatePassData(pass)
@@ -61,9 +66,18 @@ class PasswordViewModel(private val passwordDao: PasswordDao) : ViewModel() {
         }
     }
 
-    private suspend fun resetPreviousAccess() {
-        if (previousPassData != null) {
-            passwordDao.updatePassData(previousPassData!!)
+    fun resetPreviousAccess() {
+        viewModelScope.launch {
+            if (previousPassData != null) {
+                passwordDao.updatePassData(previousPassData!!)
+            }
+        }
+    }
+
+    fun resetAllAccess(){
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.d("ViewModel", "coroutine for resetAccessForAll launched")
+            passwordDao.resetAccessForAll()
         }
     }
 }

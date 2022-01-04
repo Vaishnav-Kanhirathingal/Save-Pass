@@ -1,5 +1,5 @@
 package com.kenetic.savepass.password.PassEnum
 
 enum class Access {
-    DELETE, EDIT, SHOW
+    DELETE, EDIT, SHOW, HIDE
 }
