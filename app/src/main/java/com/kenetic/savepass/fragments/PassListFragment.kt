@@ -13,29 +13,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.annotation.RestrictTo
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kenetic.savepass.adapters.PassAdapter
 import com.kenetic.savepass.databinding.FragmentPassListBinding
+import com.kenetic.savepass.password.PassEnum.Access
 import com.kenetic.savepass.password.PasswordApplication
 import com.kenetic.savepass.password.PasswordData
 import com.kenetic.savepass.password.PasswordViewModel
 import com.kenetic.savepass.password.PasswordViewModelFactory
-import com.kenetic.savepass.password.PassEnum.Access
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.kenetic.savepass.password.data.AppDataStore
 
 class PassListFragment : Fragment() {
+    private val TAG = "PassListFragmentVKP"
+
+    private lateinit var appDataStore: AppDataStore
+
     private var access: Access? = null
     private var passData: PasswordData? = null
-    private val TAG = "PassListFragment"
     private val viewModel: PasswordViewModel by activityViewModels {
         PasswordViewModelFactory(
             (activity?.application as PasswordApplication).database.passwordDao()
@@ -64,7 +64,7 @@ class PassListFragment : Fragment() {
         recyclerView = binding.passwordRecyclerView
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 1)
         //todo - adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter
-        val adapter = PassAdapter{ pass: PasswordData, acc: Access ->
+        val adapter = PassAdapter { pass: PasswordData, acc: Access ->
             if (acc != Access.HIDE) {
                 access = acc
                 passData = pass
@@ -80,10 +80,24 @@ class PassListFragment : Fragment() {
 
         binding.addFab.setOnClickListener {
             val action =
-                PassListFragmentDirections.actionPassListFragmentToAddOrEditFragment(isBeingUpdated = false, id = 0)
+                PassListFragmentDirections.actionPassListFragmentToAddOrEditFragment(
+                    isBeingUpdated = false,
+                    id = 0
+                )
             this.findNavController().navigate(action)
         }
         viewModel.resetAllAccess()//todo - check validity
+
+        appDataStore = AppDataStore(requireContext())
+        appDataStore.userMasterPasswordFlow.asLiveData().observe(viewLifecycleOwner, {
+            if (it.isEmpty()) {
+                this.findNavController()
+                    .navigate(
+                        PassListFragmentDirections
+                            .actionPassListFragmentToSetPasswordFragment()
+                    )
+            }
+        })
     }
 
     override fun onPause() {

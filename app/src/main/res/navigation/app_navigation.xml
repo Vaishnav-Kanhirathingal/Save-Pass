@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_passListFragment_to_addOrEditFragment"
             app:destination="@id/addOrEditFragment" />
+        <action
+            android:id="@+id/action_passListFragment_to_setPasswordFragment"
+            app:destination="@id/setPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/addOrEditFragment"
@@ -45,5 +48,14 @@
         <argument
             android:name="id"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/setPasswordFragment"
+        android:name="com.kenetic.savepass.fragments.SetPasswordFragment"
+        android:label="SetPasswordFragment" >
+        <action
+            android:id="@+id/action_setPasswordFragment_to_passListFragment"
+            app:destination="@id/passListFragment"
+            app:popUpTo="@id/passListFragment" />
     </fragment>
 </navigation>

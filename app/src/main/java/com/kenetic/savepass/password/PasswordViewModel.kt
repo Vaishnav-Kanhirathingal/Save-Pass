@@ -12,8 +12,6 @@ class PasswordViewModel(private val passwordDao: PasswordDao) : ViewModel() {
     private var previousPassData: PasswordData? = null
     var passList: LiveData<List<PasswordData>> = passwordDao.getAllPassData().asLiveData()
 
-    fun getById(id: Int): LiveData<PasswordData> = passwordDao.getByIdPassData(id).asLiveData()
-
     fun delete(passwordData: PasswordData) {
         viewModelScope.launch {
             if (previousPassData != null) {
@@ -74,7 +72,7 @@ class PasswordViewModel(private val passwordDao: PasswordDao) : ViewModel() {
         }
     }
 
-    fun resetAllAccess(){
+    fun resetAllAccess() {
         CoroutineScope(Dispatchers.IO).launch {
             Log.d("ViewModel", "coroutine for resetAccessForAll launched")
             passwordDao.resetAccessForAll()

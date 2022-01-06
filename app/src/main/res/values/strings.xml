@@ -11,4 +11,8 @@
     <string name="cancel">Cancel</string>
     <string name="save">save</string>
     <string name="text_blank">*text blank</string>
+    <string name="set_new_password">Set New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="password_fragment_info">YOUR PASSWORD MUST CONTAIN ALPHABETS, NUMBERS AND SYMBOLS.\n\nTHIS PASSWORD WILL BE USED TO RETRIEVE ANY PASSWORD WHEN THE FINGERPRINT IS UNAVAILABLE OR THE ONES THAT DO NOT USE FINGERPRINT.\n\nTHIS PASSWORD CANNOT BE RETRIEVED IF FORGOTTEN.</string>
 </resources>

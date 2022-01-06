@@ -82,7 +82,6 @@
                 android:id="@+id/internet_service_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
                 android:text="@string/internet_service" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
@@ -106,7 +105,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_app_margin"
-            android:checked="true"
             android:text="@string/fingerprint_unlock"
             app:layout_constraintLeft_toLeftOf="@id/service_name_edit_text"
             app:layout_constraintTop_toBottomOf="@id/ruler_two" />

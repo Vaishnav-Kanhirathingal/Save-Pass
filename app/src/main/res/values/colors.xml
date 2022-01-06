@@ -11,4 +11,7 @@
     <color name="card_foreground">#C5BBFF</color>
     <color name="transparent">#00000000</color>
     <color name="floating_action_button">#FB7575</color>
+    <color name="text_color">#000000</color>
+    <color name="background_color">#E2CEFA</color>
+    <color name="warning_text_color">#ff0000</color>
 </resources>
