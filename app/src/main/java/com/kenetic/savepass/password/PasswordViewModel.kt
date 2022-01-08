@@ -9,72 +9,43 @@ import kotlin.coroutines.CoroutineContext
 
 class PasswordViewModel(private val passwordDao: PasswordDao) : ViewModel() {
 
-    private var previousPassData: PasswordData? = null
+    private val TAG = "PasswordViewModel"
     var passList: LiveData<List<PasswordData>> = passwordDao.getAllPassData().asLiveData()
 
     fun delete(passwordData: PasswordData) {
-        viewModelScope.launch {
-            if (previousPassData != null) {
-                viewModelScope.launch {
-                    passwordDao.updatePassData(previousPassData!!)
-                    previousPassData = null
-                }
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            passwordDao.resetAccessForAll()
             passwordDao.deletePassData(passwordData)
         }
     }
 
     fun insert(passwordData: PasswordData) {
-        viewModelScope.launch {
-            if (previousPassData != null) {
-                viewModelScope.launch {
-                    passwordDao.updatePassData(previousPassData!!)
-                    previousPassData = null
-                }
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            passwordDao.resetAccessForAll()
             passwordDao.insertPassData(passwordData)
-            previousPassData = null
         }
     }
 
     fun update(passwordData: PasswordData) {
-        viewModelScope.launch {
-            if (previousPassData != null) {
-                viewModelScope.launch {
-                    passwordDao.updatePassData(previousPassData!!)
-                    previousPassData = null
-                }
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            passwordDao.resetAccessForAll()
             passwordDao.updatePassData(passwordData)
         }
     }
 
     fun getAccess(pass: PasswordData) {
-        pass.access = true
-        viewModelScope.launch {
-            if (previousPassData != null) {
-                viewModelScope.launch {
-                    passwordDao.updatePassData(previousPassData!!)
-                    //previousPassData = null
-                }
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.i(TAG,"getAccess called")
+            passwordDao.resetAccessForAll()
+            pass.access = true
             passwordDao.updatePassData(pass)
-            pass.access = false
-            previousPassData = pass
-        }
-    }
-
-    fun resetPreviousAccess() {
-        viewModelScope.launch {
-            if (previousPassData != null) {
-                passwordDao.updatePassData(previousPassData!!)
-            }
+            Log.i(TAG,"access = ${pass.access}")
         }
     }
 
     fun resetAllAccess() {
         CoroutineScope(Dispatchers.IO).launch {
-            Log.d("ViewModel", "coroutine for resetAccessForAll launched")
+            Log.i(TAG,"resetAccess called")
             passwordDao.resetAccessForAll()
         }
     }

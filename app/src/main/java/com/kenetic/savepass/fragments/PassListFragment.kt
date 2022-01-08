@@ -45,10 +45,6 @@ class PassListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -60,7 +56,7 @@ class PassListFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.resetAllAccess()
         recyclerView = binding.passwordRecyclerView
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 1)
         //todo - adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter
@@ -70,38 +66,47 @@ class PassListFragment : Fragment() {
                 passData = pass
                 verifyFingerPrint()
             } else {
-                viewModel.resetPreviousAccess()
+                viewModel.resetAllAccess()
             }
         }
         recyclerView.adapter = adapter
         viewModel.passList.observe(this.viewLifecycleOwner) {
-            adapter.submitList(it)
+            val list = it
+            adapter.submitList(list)
         }
-
-        binding.addFab.setOnClickListener {
-            val action =
-                PassListFragmentDirections.actionPassListFragmentToAddOrEditFragment(
-                    isBeingUpdated = false,
-                    id = 0
-                )
-            this.findNavController().navigate(action)
-        }
-        viewModel.resetAllAccess()//todo - check validity
 
         appDataStore = AppDataStore(requireContext())
         appDataStore.userMasterPasswordFlow.asLiveData().observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
-                this.findNavController()
-                    .navigate(
-                        PassListFragmentDirections
-                            .actionPassListFragmentToSetPasswordFragment()
+                binding.addFab.setOnClickListener {
+                    Toast.makeText(
+                        requireContext(),
+                        "Master Password has not been set yet",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    this.findNavController()
+                        .navigate(
+                            PassListFragmentDirections
+                                .actionPassListFragmentToSetPasswordFragment()
+                        )
+                }
+            } else {
+                Log.i(TAG, "master password not empty")
+                binding.addFab.setOnClickListener {
+                    this.findNavController().navigate(
+                        PassListFragmentDirections.actionPassListFragmentToAddOrEditFragment(
+                            isBeingUpdated = false,
+                            id = 0
+                        )
                     )
+                }
             }
         })
     }
 
     override fun onPause() {
-        viewModel.resetPreviousAccess()
+        Log.i(TAG, "onPause called")
+        viewModel.resetAllAccess()
         super.onPause()
     }
 
@@ -134,7 +139,6 @@ class PassListFragment : Fragment() {
                                         id = passData!!.id
                                     )
                                 )
-                            //todo - navigate navigate navigate navigate navigate navigate navigate navigate navigate navigate navigate
                         }
                         Access.DELETE -> viewModel.delete(passData!!)
                         else -> Toast.makeText(

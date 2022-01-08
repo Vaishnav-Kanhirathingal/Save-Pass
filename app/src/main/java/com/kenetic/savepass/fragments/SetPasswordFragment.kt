@@ -9,11 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.kenetic.savepass.databinding.FragmentSetPasswordBinding
 import com.kenetic.savepass.password.data.AppDataStore
-import kotlinx.coroutines.launch
 
 class SetPasswordFragment : Fragment() {
     private val TAG = "SetPasswordFragmentVKP"
@@ -48,8 +46,8 @@ class SetPasswordFragment : Fragment() {
         appDataStore.userMasterPasswordFlow.asLiveData().observe(viewLifecycleOwner, {
             storedPassword = it
             if (it.isEmpty()) {
-                binding.oldPasswordEditText.visibility = View.INVISIBLE
-                _passwordIncorrectVisibility.value = View.INVISIBLE
+                binding.oldPasswordEditText.visibility = View.GONE
+                _passwordIncorrectVisibility.value = View.GONE
             }
         })
         binding.saveFab.setOnClickListener { passToNextFrag() }
@@ -67,7 +65,7 @@ class SetPasswordFragment : Fragment() {
             hasNumbers(temp),
             temp.isNotEmpty()
         )
-        return if (tempTruthList[0] && tempTruthList[1] && tempTruthList[2] && tempTruthList[3] && tempTruthList[4]) {
+        return if (false !in tempTruthList) {
             ""
         } else {
             "*missing character types -${symbolMissingText} "
@@ -135,7 +133,6 @@ class SetPasswordFragment : Fragment() {
     }
 
     private fun matchCheck(): Boolean {
-        Log.i(TAG, "passMatch - text ${binding.setNewPasswordEditText.text} and ${binding.confirmNewPasswordEditText.text}")
         return if (binding.setNewPasswordEditText.text.toString() == binding.confirmNewPasswordEditText.text.toString()) {
             _passwordMatchVisibility.value = View.INVISIBLE
             true
@@ -147,33 +144,34 @@ class SetPasswordFragment : Fragment() {
 
     private fun incorrectCheck(): Boolean {
         return if (binding.oldPasswordEditText.text.toString() != storedPassword) {
-            Log.i(TAG, "incorrectPass set to visible")
             _passwordIncorrectVisibility.value = View.VISIBLE
             false
         } else {
-            Log.i(TAG, "incorrectPass set to invisible")
             _passwordIncorrectVisibility.value = View.INVISIBLE
             true
         }
     }
 
     private fun passToNextFrag() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val tempTruthList = listOf(setNewPassWarning(), matchCheck(), incorrectCheck())
-            if (tempTruthList[0] && tempTruthList[1] && tempTruthList[2]) {
-                appDataStore.editMasterPassword(
-                    binding.setNewPasswordEditText.text.toString(),
-                    requireContext()
-                )
-                //todo - add delay for the password to be stored
-                this@SetPasswordFragment.findNavController()
-                    .navigate(
-                        SetPasswordFragmentDirections
-                            .actionSetPasswordFragmentToPassListFragment()
-                    )
-            } else {
-                Toast.makeText(requireContext(), "retry again", Toast.LENGTH_SHORT).show()
-            }
+        val tempTruthList = listOf(setNewPassWarning(), matchCheck(), incorrectCheck())
+        if (false !in tempTruthList) {
+            appDataStore.editMasterPassword(
+                binding.setNewPasswordEditText.text.toString(),
+                requireContext()
+            )
+            nextScreen()
+
+        } else {
+            Toast.makeText(requireContext(), "retry again", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun nextScreen() {
+        Log.i(TAG,"next screen called")
+        this@SetPasswordFragment.findNavController()
+            .navigate(
+                SetPasswordFragmentDirections
+                    .actionSetPasswordFragmentToPassListFragment()
+            )
     }
 }

@@ -1,6 +1,5 @@
 package com.kenetic.savepass.adapters
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,21 +8,22 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kenetic.savepass.R
 import com.kenetic.savepass.databinding.PassListBinding
-import com.kenetic.savepass.password.PasswordData
 import com.kenetic.savepass.password.PassEnum.Access
+import com.kenetic.savepass.password.PasswordData
 
-
-class PassAdapter(
-    private val fingerChecker: (PasswordData, Access) -> Unit
-) :
+class PassAdapter(private val fingerChecker: (PasswordData, Access) -> Unit) :
     ListAdapter<PasswordData, PassAdapter.PassViewHolder>(diffCallBack) {
 
+    private val TAG = "PassAdapter"
+
     class PassViewHolder(
-        val binding: PassListBinding,
+        private val binding: PassListBinding,
         private val fingerChecker: (PasswordData, Access) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+
         private val TAG = "PassAdapter"
         fun bind(passwordData: PasswordData) {
+            Log.i(TAG, "bind called")
             binding.isAppOrWebImageView.setImageResource(
                 if (passwordData.isAnApplication) {
                     R.drawable.is_application_icon_24
@@ -34,12 +34,15 @@ class PassAdapter(
             binding.serviceNameTextView.text = passwordData.serviceName
 
             if (passwordData.access) {
+                Log.i(TAG, "access has been given")
                 binding.servicePasswordTextView.text = passwordData.servicePassword
                 binding.showImageView.setImageResource(R.drawable.ic_baseline_hide_20)
                 binding.showImageView.setOnClickListener {
-                    fingerChecker(passwordData,Access.HIDE)
+                    fingerChecker(passwordData, Access.HIDE)
                 }
             } else {
+                Log.i(TAG, "access has been denied")
+                binding.showImageView.setImageResource(R.drawable.ic_baseline_show_20)
                 binding.servicePasswordTextView.text = "**********"
                 binding.showImageView.setOnClickListener {
                     fingerChecker(passwordData, Access.SHOW)
@@ -67,13 +70,14 @@ class PassAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PassAdapter.PassViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PassViewHolder {
         return PassViewHolder(
             PassListBinding.inflate(LayoutInflater.from(parent.context)), fingerChecker
         )
     }
 
     override fun onBindViewHolder(holder: PassViewHolder, position: Int) {
+        Log.i(TAG, "access for $position = ${getItem(position).access}")
         holder.bind(getItem(position))
     }
 }
