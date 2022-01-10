@@ -35,10 +35,12 @@ class PassAdapter(private val fingerChecker: (PasswordData, Access) -> Unit) :
 
             if (passwordData.access) {
                 Log.i(TAG, "access has been given")
-                binding.servicePasswordTextView.text = passwordData.servicePassword
-                binding.showImageView.setImageResource(R.drawable.ic_baseline_hide_20)
-                binding.showImageView.setOnClickListener {
-                    fingerChecker(passwordData, Access.HIDE)
+                binding.apply {
+                    servicePasswordTextView.text = passwordData.servicePassword
+                    showImageView.setImageResource(R.drawable.ic_baseline_hide_20)
+                    showImageView.setOnClickListener {
+                        fingerChecker(passwordData, Access.HIDE)
+                    }
                 }
             } else {
                 Log.i(TAG, "access has been denied")
@@ -48,6 +50,14 @@ class PassAdapter(private val fingerChecker: (PasswordData, Access) -> Unit) :
                     fingerChecker(passwordData, Access.SHOW)
                 }
             }
+
+            binding.securityTypeImageView.setImageResource(
+                if (passwordData.useFingerPrint) {
+                    R.drawable.fingerprint_20
+                } else {
+                    R.drawable.password_20
+                }
+            )
 
             binding.deleteImageView.setOnClickListener {
                 fingerChecker(passwordData, Access.DELETE)

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/passListFragment"
         android:name="com.kenetic.savepass.fragments.PassListFragment"
-        android:label="fragment_pass_list"
+        android:label="Save Pass"
         tools:layout="@layout/fragment_pass_list" >
         <action
             android:id="@+id/action_passListFragment_to_addOrEditFragment"
@@ -52,7 +52,7 @@
     <fragment
         android:id="@+id/setPasswordFragment"
         android:name="com.kenetic.savepass.fragments.SetPasswordFragment"
-        android:label="SetPasswordFragment" >
+        android:label="Set Master Password" >
         <action
             android:id="@+id/action_setPasswordFragment_to_passListFragment"
             app:destination="@id/passListFragment"

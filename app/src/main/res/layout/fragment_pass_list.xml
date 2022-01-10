@@ -16,11 +16,24 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_fab"
         android:layout_width="wrap_content"
-        android:backgroundTint="@color/purple_200"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/vertical_app_margin"
+        android:backgroundTint="@color/purple_200"
         android:src="@drawable/add_fab_icon_40"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:contentDescription="@string/add_new_password" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/empty_list_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/password_recycler_view"
+        app:layout_constraintTop_toTopOf="@id/password_recycler_view"
+        app:layout_constraintLeft_toLeftOf="@id/password_recycler_view"
+        app:layout_constraintRight_toRightOf="@id/password_recycler_view"
+        android:text="@string/click_to_add_password"
+        android:textAlignment="center"
+        android:textSize="20sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

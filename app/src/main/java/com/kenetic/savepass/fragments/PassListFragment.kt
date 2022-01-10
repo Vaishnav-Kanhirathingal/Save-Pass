@@ -71,8 +71,14 @@ class PassListFragment : Fragment() {
         }
         recyclerView.adapter = adapter
         viewModel.passList.observe(this.viewLifecycleOwner) {
-            val list = it
-            adapter.submitList(list)
+            adapter.submitList(it)
+            if (it.isEmpty()){
+                Log.i(TAG,"list given is empty")
+                binding.emptyListTextView.visibility = View.VISIBLE
+            }else{
+                Log.i(TAG,"list is not empty")
+                binding.emptyListTextView.visibility = View.GONE
+            }
         }
 
         appDataStore = AppDataStore(requireContext())

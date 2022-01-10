@@ -14,5 +14,7 @@
     <string name="set_new_password">Set New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="old_password">Old Password</string>
-    <string name="password_fragment_info">YOUR PASSWORD MUST CONTAIN ALPHABETS, NUMBERS AND SYMBOLS.\n\nTHIS PASSWORD WILL BE USED TO RETRIEVE ANY PASSWORD WHEN THE FINGERPRINT IS UNAVAILABLE OR THE ONES THAT DO NOT USE FINGERPRINT.\n\nTHIS PASSWORD CANNOT BE RETRIEVED IF FORGOTTEN.</string>
+    <string name="password_fragment_info">YOUR PASSWORD MUST CONTAIN ALPHABETS, NUMBERS AND SYMBOLS.\n\nTHIS PASSWORD WILL BE USED TO RETRIEVE ANY PASSWORD WHEN THE FINGERPRINT IS UNAVAILABLE OR FOR THE ONES WHERE YOU HAVE OPTED OUT OF USING THE FINGERPRINT.\n\nTHIS PASSWORD CANNOT BE RETRIEVED IF FORGOTTEN.</string>
+    <string name="click_to_add_password">Click on the \'+\' \nto add a new service password</string>
+    <string name="add_new_password">Add new password</string>
 </resources>

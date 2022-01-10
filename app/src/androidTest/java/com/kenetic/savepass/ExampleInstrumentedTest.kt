@@ -16,89 +16,29 @@ class ExampleInstrumentedTest {
     val scenario = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun savingLoginCredentials(){
+    fun shortcut() {
         onView(withId(R.id.add_fab)).perform(click())
         onView(withId(R.id.set_new_password_edit_text)).perform(typeText("MasterPassword@1"))
         onView(withId(R.id.confirm_new_password_edit_text)).perform(typeText("MasterPassword@1"))
         onView(withId(R.id.save_fab)).perform(click())
         Thread.sleep(100)
 
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_1"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_1"))
-        onView(withId(R.id.internet_service_radio_button)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
+        for (i in 1..12) {
+            onView(withId(R.id.add_fab)).perform(click())
+            onView(withId(R.id.service_name_edit_text)).perform(typeText("service_name_${i}"))
+            onView(withId(R.id.service_password_edit_text)).perform(typeText("service_password_${i}"))
 
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_2"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_2"))
-        onView(withId(R.id.internet_service_radio_button)).perform(click())
-        onView(withId(R.id.fingerprint_check_box)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
+            if (i % 4 == 1 || i % 4 == 2) {
+                onView(withId(R.id.application_service_radio_button)).perform(click())
+            } else {
+                onView(withId(R.id.internet_service_radio_button)).perform(click())
+            }
 
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_3"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_3"))
-        onView(withId(R.id.application_service_radio_button)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
+            if (i % 4 == 2 || i % 4 == 0) {
+                onView(withId(R.id.fingerprint_check_box)).perform(click())
+            }
 
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_4"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_4"))
-        onView(withId(R.id.application_service_radio_button)).perform(click())
-        onView(withId(R.id.fingerprint_check_box)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
-
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_5"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_5"))
-        onView(withId(R.id.internet_service_radio_button)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
-
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_6"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_6"))
-        onView(withId(R.id.internet_service_radio_button)).perform(click())
-        onView(withId(R.id.fingerprint_check_box)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
-
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_7"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_7"))
-        onView(withId(R.id.application_service_radio_button)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
-
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_8"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_8"))
-        onView(withId(R.id.application_service_radio_button)).perform(click())
-        onView(withId(R.id.fingerprint_check_box)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
-
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_9"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_9"))
-        onView(withId(R.id.internet_service_radio_button)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
-
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_10"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_10"))
-        onView(withId(R.id.internet_service_radio_button)).perform(click())
-        onView(withId(R.id.fingerprint_check_box)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
-
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_11"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_11"))
-        onView(withId(R.id.application_service_radio_button)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
-
-        onView(withId(R.id.add_fab)).perform(click())
-        onView(withId(R.id.service_name_edit_text)).perform(typeText("test_name_12"))
-        onView(withId(R.id.service_password_edit_text)).perform(typeText("test_password_12"))
-        onView(withId(R.id.application_service_radio_button)).perform(click())
-        onView(withId(R.id.fingerprint_check_box)).perform(click())
-        onView(withId(R.id.save_button)).perform(click())
+            onView(withId(R.id.save_button)).perform(click())
+        }
     }
 }
