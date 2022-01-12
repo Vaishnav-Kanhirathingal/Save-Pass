@@ -11,17 +11,17 @@ import com.kenetic.savepass.databinding.PassListBinding
 import com.kenetic.savepass.password.PassEnum.Access
 import com.kenetic.savepass.password.PasswordData
 
+private const val TAG = "PassAdapter"
+
 class PassAdapter(private val fingerChecker: (PasswordData, Access) -> Unit) :
     ListAdapter<PasswordData, PassAdapter.PassViewHolder>(diffCallBack) {
 
-    private val TAG = "PassAdapter"
 
     class PassViewHolder(
         private val binding: PassListBinding,
         private val fingerChecker: (PasswordData, Access) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val TAG = "PassAdapter"
         fun bind(passwordData: PasswordData) {
             Log.i(TAG, "bind called")
             binding.isAppOrWebImageView.setImageResource(
@@ -72,11 +72,17 @@ class PassAdapter(private val fingerChecker: (PasswordData, Access) -> Unit) :
 
     companion object {
         private val diffCallBack = object : DiffUtil.ItemCallback<PasswordData>() {
-            override fun areItemsTheSame(oldItem: PasswordData, newItem: PasswordData) =
-                (oldItem.id == newItem.id)
+            override fun areItemsTheSame(oldItem: PasswordData, newItem: PasswordData): Boolean {
+                Log.i(
+                    TAG,
+                    "id equality checked -\t${oldItem.serviceName}\t\taccess value passed - \t${oldItem.access}\t\t${newItem.access}"
+                )
+                return oldItem.id == newItem.id
+            }
 
-            override fun areContentsTheSame(oldItem: PasswordData, newItem: PasswordData) =
-                (oldItem == newItem)
+            override fun areContentsTheSame(oldItem: PasswordData, newItem: PasswordData): Boolean {
+                return (oldItem == newItem && oldItem.access == newItem.access)
+            }
         }
     }
 

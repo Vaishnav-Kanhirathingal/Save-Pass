@@ -21,15 +21,6 @@ class SetPasswordFragment : Fragment() {
     private lateinit var appDataStore: AppDataStore
     private lateinit var storedPassword: String
 
-    private var _symbolsVisibility = MutableLiveData(View.INVISIBLE)
-    val symbolsVisibility: MutableLiveData<Int> get() = _symbolsVisibility
-
-    private var _passwordMatchVisibility = MutableLiveData(View.INVISIBLE)
-    val passwordMatchVisibility: MutableLiveData<Int> get() = _passwordMatchVisibility
-
-    private var _passwordIncorrectVisibility = MutableLiveData(View.INVISIBLE)
-    val passwordIncorrectVisibility: MutableLiveData<Int> get() = _passwordIncorrectVisibility
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,7 +38,6 @@ class SetPasswordFragment : Fragment() {
             storedPassword = it
             if (it.isEmpty()) {
                 binding.oldPasswordEditText.visibility = View.GONE
-                _passwordIncorrectVisibility.value = View.GONE
             }
         })
         binding.saveFab.setOnClickListener { passToNextFrag() }
@@ -119,35 +109,35 @@ class SetPasswordFragment : Fragment() {
     }
 
     private fun setNewPassWarning(): Boolean {
-        val str = binding.setNewPasswordEditText.text.toString()
+        val str = binding.setNewPasswordEditText.editText!!.text.toString()
         val warningText = getSymbolCheckWarning(str) + getLengthWarningString(str)
         Log.i(TAG, "warningText = $warningText")
+
         return if (warningText.isEmpty()) {
-            _symbolsVisibility.value = View.INVISIBLE
+            binding.setNewPasswordEditText.error = ""
             true
         } else {
-            binding.setNewTextView.text = warningText
-            _symbolsVisibility.value = View.VISIBLE
+            binding.setNewPasswordEditText.error = warningText
             false
         }
     }
 
     private fun matchCheck(): Boolean {
-        return if (binding.setNewPasswordEditText.text.toString() == binding.confirmNewPasswordEditText.text.toString()) {
-            _passwordMatchVisibility.value = View.INVISIBLE
+        return if (binding.setNewPasswordEditText.editText!!.text.toString() == binding.confirmNewPasswordEditText.editText!!.text.toString()) {
+            binding.confirmNewPasswordEditText.error = ""//todo - new added
             true
         } else {
-            _passwordMatchVisibility.value = View.VISIBLE
+            binding.confirmNewPasswordEditText.error = "password does not match"//todo - new added
             false
         }
     }
 
     private fun incorrectCheck(): Boolean {
-        return if (binding.oldPasswordEditText.text.toString() != storedPassword) {
-            _passwordIncorrectVisibility.value = View.VISIBLE
+        return if (binding.oldPasswordEditText.editText!!.text.toString() != storedPassword) {
+            binding.oldPasswordEditText.error = "password incorrect"//todo - new added
             false
         } else {
-            _passwordIncorrectVisibility.value = View.INVISIBLE
+            binding.oldPasswordEditText.error = ""//todo - new added
             true
         }
     }
@@ -156,7 +146,7 @@ class SetPasswordFragment : Fragment() {
         val tempTruthList = listOf(setNewPassWarning(), matchCheck(), incorrectCheck())
         if (false !in tempTruthList) {
             appDataStore.editMasterPassword(
-                binding.setNewPasswordEditText.text.toString(),
+                binding.setNewPasswordEditText.editText!!.text.toString(),
                 requireContext()
             )
             nextScreen()

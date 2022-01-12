@@ -7,48 +7,48 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".fragments.AddOrEditFragment">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/service_name_edit_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/vertical_app_margin"
             android:hint="@string/service_name"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:boxCornerRadiusBottomEnd="@dimen/text_field_corner"
+            app:boxCornerRadiusBottomStart="@dimen/text_field_corner"
+            app:boxCornerRadiusTopEnd="@dimen/text_field_corner"
+            app:boxCornerRadiusTopStart="@dimen/text_field_corner"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/service_name_empty_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_blank"
-            android:textColor="#ff0000"
-            android:textSize="12sp"
-            android:visibility="invisible"
-            app:layout_constraintLeft_toLeftOf="@id/service_name_edit_text"
-            app:layout_constraintTop_toBottomOf="@id/service_name_edit_text" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <com.google.android.material.textfield.TextInputEditText
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/service_password_edit_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_app_margin"
             android:hint="@string/service_password"
+            app:boxCornerRadiusBottomEnd="@dimen/text_field_corner"
+            app:boxCornerRadiusBottomStart="@dimen/text_field_corner"
+            app:boxCornerRadiusTopEnd="@dimen/text_field_corner"
+            app:boxCornerRadiusTopStart="@dimen/text_field_corner"
             app:layout_constraintLeft_toLeftOf="@id/service_name_edit_text"
             app:layout_constraintRight_toRightOf="@id/service_name_edit_text"
-            app:layout_constraintTop_toBottomOf="@id/service_name_edit_text" />
+            app:layout_constraintTop_toBottomOf="@id/service_name_edit_text">
 
-        <TextView
-            android:id="@+id/service_password_empty_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_blank"
-            android:textColor="#ff0000"
-            android:textSize="12sp"
-            android:visibility="invisible"
-            app:layout_constraintLeft_toLeftOf="@id/service_password_edit_text"
-            app:layout_constraintTop_toBottomOf="@id/service_password_edit_text" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <View
             android:id="@+id/ruler_one"
@@ -82,12 +82,14 @@
                 android:id="@+id/internet_service_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/secondary_color_copy"
                 android:text="@string/internet_service" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/application_service_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/secondary_color_copy"
                 android:text="@string/application_service" />
         </RadioGroup>
 
@@ -105,6 +107,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_app_margin"
+            android:buttonTint="@color/secondary_color_copy"
+            android:checked="true"
             android:text="@string/fingerprint_unlock"
             app:layout_constraintLeft_toLeftOf="@id/service_name_edit_text"
             app:layout_constraintTop_toBottomOf="@id/ruler_two" />
@@ -134,6 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/vertical_app_margin"
             android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/cancel_button"
             app:layout_constraintRight_toRightOf="@id/service_name_edit_text"
             app:layout_constraintTop_toBottomOf="@id/ruler_three" />

@@ -5,4 +5,7 @@
     <color name="card_foreground">#000000</color>
     <color name="text_color">#ffffff</color>
     <color name="background_color">#000000</color>
+
+    <color name="secondaryColor">#07274A</color>
+    <color name="secondaryLightColor">#263A60</color>
 </resources>

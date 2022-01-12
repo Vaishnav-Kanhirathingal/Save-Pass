@@ -69,8 +69,8 @@ class AddOrEditFragment : Fragment() {
 
         if (argIsBeingUpdated) {
             binding.apply {
-                serviceNameEditText.setText(argServiceName)
-                servicePasswordEditText.setText(argServicePassword)
+                serviceNameEditText.editText!!.setText(argServiceName)
+                servicePasswordEditText.editText!!.setText(argServicePassword)
                 fingerprintCheckBox.isChecked = argUseFingerprint
             }
             if (argIsAnApplication) {
@@ -84,14 +84,14 @@ class AddOrEditFragment : Fragment() {
         }
 
         binding.saveButton.setOnClickListener {
-            if (!(binding.servicePasswordEditText.text.isNullOrEmpty() || binding.serviceNameEditText.text.isNullOrEmpty())) {
+            if (!(binding.servicePasswordEditText.editText!!.text.isNullOrEmpty() || binding.serviceNameEditText.editText!!.text.isNullOrEmpty())) {
 
                 if (argIsBeingUpdated) {
                     viewModel.update(
                         PasswordData(
                             id = argId,
-                            serviceName = binding.serviceNameEditText.text.toString(),
-                            servicePassword = binding.servicePasswordEditText.text.toString(),
+                            serviceName = binding.serviceNameEditText.editText!!.text.toString(),
+                            servicePassword = binding.servicePasswordEditText.editText!!.text.toString(),
                             useFingerPrint = binding.fingerprintCheckBox.isChecked,
                             isAnApplication = binding.applicationServiceRadioButton.isChecked,
                             access = false
@@ -100,8 +100,8 @@ class AddOrEditFragment : Fragment() {
                 } else {
                     viewModel.insert(
                         PasswordData(
-                            serviceName = binding.serviceNameEditText.text.toString(),
-                            servicePassword = binding.servicePasswordEditText.text.toString(),
+                            serviceName = binding.serviceNameEditText.editText!!.text.toString(),
+                            servicePassword = binding.servicePasswordEditText.editText!!.text.toString(),
                             useFingerPrint = binding.fingerprintCheckBox.isChecked,
                             isAnApplication = binding.applicationServiceRadioButton.isChecked,
                             access = false
@@ -111,10 +111,18 @@ class AddOrEditFragment : Fragment() {
                 this.findNavController()
                     .navigate(AddOrEditFragmentDirections.actionAddOrEditFragmentToPassListFragment())
             } else {
-                binding.serviceNameEmptyTextView.isVisible =
-                    binding.serviceNameEditText.text.isNullOrEmpty()
-                binding.servicePasswordEmptyTextView.isVisible =
-                    binding.servicePasswordEditText.text.isNullOrEmpty()
+                binding.serviceNameEditText.error =
+                    if (binding.serviceNameEditText.editText!!.text.isNullOrEmpty()) {
+                        "*field empty"
+                    } else {
+                        ""
+                    }
+                binding.servicePasswordEditText.error =
+                    if (binding.servicePasswordEditText.editText!!.text.isNullOrEmpty()) {
+                        "*field empty"
+                    } else {
+                        ""
+                    }
             }
         }
     }

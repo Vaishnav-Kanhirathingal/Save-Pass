@@ -8,9 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CancellationSignal
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -20,6 +18,7 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kenetic.savepass.R
 import com.kenetic.savepass.adapters.PassAdapter
 import com.kenetic.savepass.databinding.FragmentPassListBinding
 import com.kenetic.savepass.password.PassEnum.Access
@@ -64,19 +63,24 @@ class PassListFragment : Fragment() {
             if (acc != Access.HIDE) {
                 access = acc
                 passData = pass
-                verifyFingerPrint()
+                if (pass.useFingerPrint) {
+                    verifyFingerPrint()
+                } else {
+                    //todo - add password prompt
+                }
             } else {
                 viewModel.resetAllAccess()
             }
         }
         recyclerView.adapter = adapter
         viewModel.passList.observe(this.viewLifecycleOwner) {
-            adapter.submitList(it)
-            if (it.isEmpty()){
-                Log.i(TAG,"list given is empty")
+            val lst = it
+            adapter.submitList(lst)
+            if (it.isEmpty()) {
+                Log.i(TAG, "list given is empty")
                 binding.emptyListTextView.visibility = View.VISIBLE
-            }else{
-                Log.i(TAG,"list is not empty")
+            } else {
+                Log.i(TAG, "list is not empty")
                 binding.emptyListTextView.visibility = View.GONE
             }
         }
@@ -110,6 +114,33 @@ class PassListFragment : Fragment() {
         })
     }
 
+    private fun afterSuccess() {
+        Log.d(TAG, "authentication succeeded")
+        when (access) {
+            Access.SHOW -> viewModel.getAccess(passData!!)
+            Access.EDIT -> {
+                this@PassListFragment
+                    .findNavController()
+                    .navigate(
+                        PassListFragmentDirections.actionPassListFragmentToAddOrEditFragment(
+                            serviceName = passData!!.serviceName,
+                            servicePassword = passData!!.servicePassword,
+                            isAnApplication = passData!!.isAnApplication,
+                            useFingerPrint = passData!!.useFingerPrint,
+                            isBeingUpdated = true,
+                            id = passData!!.id
+                        )
+                    )
+            }
+            Access.DELETE -> viewModel.delete(passData!!)
+            else -> Toast.makeText(
+                this@PassListFragment.context,
+                "Fatal error has occurred",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     override fun onPause() {
         Log.i(TAG, "onPause called")
         viewModel.resetAllAccess()
@@ -129,30 +160,7 @@ class PassListFragment : Fragment() {
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
                     super.onAuthenticationSucceeded(result)
-                    Log.d(TAG, "authentication succeeded")
-                    when (access) {
-                        Access.SHOW -> viewModel.getAccess(passData!!)
-                        Access.EDIT -> {
-                            this@PassListFragment
-                                .findNavController()
-                                .navigate(
-                                    PassListFragmentDirections.actionPassListFragmentToAddOrEditFragment(
-                                        serviceName = passData!!.serviceName,
-                                        servicePassword = passData!!.servicePassword,
-                                        isAnApplication = passData!!.isAnApplication,
-                                        useFingerPrint = passData!!.useFingerPrint,
-                                        isBeingUpdated = true,
-                                        id = passData!!.id
-                                    )
-                                )
-                        }
-                        Access.DELETE -> viewModel.delete(passData!!)
-                        else -> Toast.makeText(
-                            this@PassListFragment.context,
-                            "Fatal error has occurred",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    afterSuccess()
                 }
             }
 
@@ -200,6 +208,23 @@ class PassListFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Fingerprint Support Not Found", Toast.LENGTH_SHORT)
                 .show()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.filter_service -> {
+                //todo - filter
+                return true
+            }
+            else -> {
+                return false
+            }
         }
     }
 }

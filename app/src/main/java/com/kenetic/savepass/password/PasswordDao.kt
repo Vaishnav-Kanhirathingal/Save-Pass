@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PasswordDao {
+
+    //----------------------------------------------------------------------------------------------
     @Insert
     suspend fun insertPassData(passwordData: PasswordData)
 
@@ -22,4 +24,10 @@ interface PasswordDao {
 
     @Query("UPDATE password_data SET access = 0 WHERE access = 1")
     fun resetAccessForAll()
+
+    //----------------------------------------------------------------------------------------------
+    @Query("SELECT * FROM password_data WHERE is_an_application = :isAnApplication")
+    fun getAllSpecifiedService(isAnApplication:Boolean):Flow<List<PasswordData>>
+
+    //----------------------------------------------------------------------------------------------
 }

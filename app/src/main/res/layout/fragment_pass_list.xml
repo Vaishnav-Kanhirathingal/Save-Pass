@@ -10,7 +10,7 @@
         android:id="@+id/password_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:itemCount="2"
+        tools:itemCount="3"
         tools:listitem="@layout/pass_list" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,22 +18,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/vertical_app_margin"
-        android:backgroundTint="@color/purple_200"
+        android:backgroundTint="@color/primaryDarkColor"
+        android:contentDescription="@string/add_new_password"
         android:src="@drawable/add_fab_icon_40"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:contentDescription="@string/add_new_password" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/empty_list_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/password_recycler_view"
-        app:layout_constraintTop_toTopOf="@id/password_recycler_view"
-        app:layout_constraintLeft_toLeftOf="@id/password_recycler_view"
-        app:layout_constraintRight_toRightOf="@id/password_recycler_view"
         android:text="@string/click_to_add_password"
         android:textAlignment="center"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/password_recycler_view"
+        app:layout_constraintLeft_toLeftOf="@id/password_recycler_view"
+        app:layout_constraintRight_toRightOf="@id/password_recycler_view"
+        app:layout_constraintTop_toTopOf="@id/password_recycler_view"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
