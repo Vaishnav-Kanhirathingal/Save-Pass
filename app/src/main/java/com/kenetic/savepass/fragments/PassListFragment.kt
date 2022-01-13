@@ -28,9 +28,10 @@ import com.kenetic.savepass.password.PasswordViewModel
 import com.kenetic.savepass.password.PasswordViewModelFactory
 import com.kenetic.savepass.password.data.AppDataStore
 
-class PassListFragment : Fragment() {
-    private val TAG = "PassListFragmentVKP"
+private const val TAG = "PassListFragmentVKP"
 
+class PassListFragment : Fragment() {
+    private lateinit var adapter: PassAdapter
     private lateinit var appDataStore: AppDataStore
 
     private var access: Access? = null
@@ -45,9 +46,14 @@ class PassListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPassListBinding.inflate(inflater, container, false)
+        binding = FragmentPassListBinding.inflate(
+            inflater, container, false
+        )
+        setHasOptionsMenu(true)
         return binding.root
 
     }
@@ -59,7 +65,7 @@ class PassListFragment : Fragment() {
         recyclerView = binding.passwordRecyclerView
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 1)
         //todo - adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter
-        val adapter = PassAdapter { pass: PasswordData, acc: Access ->
+        adapter = PassAdapter(viewModel,viewLifecycleOwner){ pass: PasswordData, acc: Access ->
             if (acc != Access.HIDE) {
                 access = acc
                 passData = pass
@@ -73,7 +79,7 @@ class PassListFragment : Fragment() {
             }
         }
         recyclerView.adapter = adapter
-        viewModel.passList.observe(this.viewLifecycleOwner) {
+        viewModel.getAllId().asLiveData().observe(this.viewLifecycleOwner) {
             val lst = it
             adapter.submitList(lst)
             if (it.isEmpty()) {
@@ -218,12 +224,23 @@ class PassListFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.filter_service -> {
-                //todo - filter
+            R.id.filter_web_service -> {
+                viewModel.getWeb()
+                Toast.makeText(requireContext(), "web showing", Toast.LENGTH_SHORT).show()
+                return true
+            }
+            R.id.filter_application_service -> {
+                viewModel.getApp()
+                Toast.makeText(requireContext(), "application showing", Toast.LENGTH_SHORT).show()
+                return true
+            }
+            R.id.show_all -> {
+                viewModel.getAll()
+                Toast.makeText(requireContext(), "all showing", Toast.LENGTH_SHORT).show()
                 return true
             }
             else -> {
-                return false
+                return super.onOptionsItemSelected(item)
             }
         }
     }

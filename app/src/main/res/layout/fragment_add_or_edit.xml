@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_or_edit_constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".fragments.AddOrEditFragment">
@@ -24,6 +25,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/service_name_sub_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -45,6 +47,7 @@
             app:layout_constraintTop_toBottomOf="@id/service_name_edit_text">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/service_password_sub_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

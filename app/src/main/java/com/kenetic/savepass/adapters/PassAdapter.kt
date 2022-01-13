@@ -3,6 +3,8 @@ package com.kenetic.savepass.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,11 +12,17 @@ import com.kenetic.savepass.R
 import com.kenetic.savepass.databinding.PassListBinding
 import com.kenetic.savepass.password.PassEnum.Access
 import com.kenetic.savepass.password.PasswordData
+import com.kenetic.savepass.password.PasswordViewModel
+import java.lang.Exception
 
 private const val TAG = "PassAdapter"
 
-class PassAdapter(private val fingerChecker: (PasswordData, Access) -> Unit) :
-    ListAdapter<PasswordData, PassAdapter.PassViewHolder>(diffCallBack) {
+class PassAdapter(
+    private val viewModel: PasswordViewModel,
+    private val lifecycleOwner: LifecycleOwner,
+    private val fingerChecker: (PasswordData, Access) -> Unit
+) :
+    ListAdapter<Int, PassAdapter.PassViewHolder>(diffCallBack) {
 
 
     class PassViewHolder(
@@ -71,29 +79,32 @@ class PassAdapter(private val fingerChecker: (PasswordData, Access) -> Unit) :
     }
 
     companion object {
-        private val diffCallBack = object : DiffUtil.ItemCallback<PasswordData>() {
-            override fun areItemsTheSame(oldItem: PasswordData, newItem: PasswordData): Boolean {
-                Log.i(
-                    TAG,
-                    "id equality checked -\t${oldItem.serviceName}\t\taccess value passed - \t${oldItem.access}\t\t${newItem.access}"
-                )
-                return oldItem.id == newItem.id
+        private val diffCallBack = object : DiffUtil.ItemCallback<Int>() {
+            override fun areItemsTheSame(oldItem: Int, newItem: Int): Boolean {
+                return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: PasswordData, newItem: PasswordData): Boolean {
-                return (oldItem == newItem && oldItem.access == newItem.access)
+            override fun areContentsTheSame(oldItem: Int, newItem: Int): Boolean {
+                return oldItem == newItem
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PassViewHolder {
         return PassViewHolder(
-            PassListBinding.inflate(LayoutInflater.from(parent.context)), fingerChecker
+            PassListBinding.inflate(LayoutInflater.from(parent.context)),
+            fingerChecker
         )
     }
 
     override fun onBindViewHolder(holder: PassViewHolder, position: Int) {
-        Log.i(TAG, "access for $position = ${getItem(position).access}")
-        holder.bind(getItem(position))
+        viewModel.getById(getItem(position)).asLiveData().observe(lifecycleOwner) {
+            try {
+                holder.bind(it)
+            }catch (e:Exception){
+                Log.e(TAG,"PassData passed = null")
+                e.printStackTrace()
+            }
+        }
     }
 }

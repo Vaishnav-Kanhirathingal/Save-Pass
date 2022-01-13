@@ -2,6 +2,8 @@ package com.kenetic.savepass
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
@@ -17,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         navController = navHostFragment.navController
         setupActionBarWithNavController(this, navController)
+        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
     }
 
     override fun onSupportNavigateUp(): Boolean {

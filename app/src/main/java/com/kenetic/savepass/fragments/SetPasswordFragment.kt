@@ -26,8 +26,6 @@ class SetPasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSetPasswordBinding.inflate(inflater, container, false)
-        binding.setPasswordFragment = this
-        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
