@@ -1,6 +1,6 @@
 package com.kenetic.savepass.fragments
 
-import android.app.AlertDialog
+import android.app.Dialog
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.pm.PackageManager
@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kenetic.savepass.R
 import com.kenetic.savepass.adapters.PassAdapter
 import com.kenetic.savepass.databinding.FragmentPassListBinding
+import com.kenetic.savepass.databinding.PasswordPromptDialogBinding
 import com.kenetic.savepass.password.PassEnum.Access
 import com.kenetic.savepass.password.PasswordApplication
 import com.kenetic.savepass.password.PasswordData
@@ -44,8 +45,8 @@ class PassListFragment : Fragment() {
             (activity?.application as PasswordApplication).database.passwordDao()
         )
     }
+    private var storedPass = "unKnown"
     private lateinit var binding: FragmentPassListBinding
-
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
@@ -75,7 +76,7 @@ class PassListFragment : Fragment() {
                 if (pass.useFingerPrint) {
                     verifyFingerPrint()
                 } else {
-                    //todo - add password prompt
+                    showPasswordPrompt()
                 }
             } else {
                 viewModel.resetAllAccess()
@@ -145,6 +146,8 @@ class PassListFragment : Fragment() {
 
         appDataStore = AppDataStore(requireContext())
         appDataStore.userMasterPasswordFlow.asLiveData().observe(viewLifecycleOwner) {
+            storedPass = it
+            Log.i(TAG, "master password - $it")
             if (it.isEmpty()) {
                 binding.addFab.setOnClickListener {
                     Toast.makeText(
@@ -214,6 +217,12 @@ class PassListFragment : Fragment() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
                     super.onAuthenticationError(errorCode, errString)
                     Log.d(TAG, "authentication error")
+                    Toast.makeText(
+                        requireContext(),
+                        "FingerPrint Error Has Occurred",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    showPasswordPrompt()
                 }
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
@@ -271,10 +280,35 @@ class PassListFragment : Fragment() {
 
     //-------------------------------------------------------------------------------password-prompt
     private fun showPasswordPrompt() {
-        val alertDialog =
-            AlertDialog.Builder(context)
-                .setTitle("Password")
-                .setMessage("Enter Master Password To Access Password for ")
+        val alertBinding = PasswordPromptDialogBinding.inflate(layoutInflater)
+        val promptTAG = "showPasswordPrompt"
+        val alertDialog = Dialog(requireContext())
+        alertDialog.apply {
+            setContentView(alertBinding.root)
+            window!!.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            setCancelable(true)
+        }
+        alertBinding.apply {
+            confirm.setOnClickListener {
+                Log.i(
+                    promptTAG,
+                    "text = ${masterPasswordEditText.text.toString()}, saved password = ${storedPass}"
+                )
+                if (masterPasswordEditText.text.toString() == storedPass) {
+                    afterSuccess()
+                    alertDialog.dismiss()
+                } else {
+                    masterPasswordEditText.error = "Password Entered Does Not Match"
+                }
+            }
+            cancel.setOnClickListener {
+                alertDialog.dismiss()
+            }
+        }
+        alertDialog.show()
     }
 
     //----------------------------------------------------------------------------------options-menu
