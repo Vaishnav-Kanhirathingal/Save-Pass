@@ -1,5 +1,6 @@
 package com.kenetic.savepass.fragments
 
+import android.app.AlertDialog
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.pm.PackageManager
@@ -31,7 +32,9 @@ import com.kenetic.savepass.password.data.AppDataStore
 private const val TAG = "PassListFragmentVKP"
 
 class PassListFragment : Fragment() {
-    private lateinit var adapter: PassAdapter
+    private lateinit var allAdapter: PassAdapter
+    private lateinit var isAppAdapter: PassAdapter
+    private lateinit var isWebAdapter: PassAdapter
     private lateinit var appDataStore: AppDataStore
 
     private var access: Access? = null
@@ -65,7 +68,7 @@ class PassListFragment : Fragment() {
         recyclerView = binding.passwordRecyclerView
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 1)
         //todo - adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter adapter
-        adapter = PassAdapter(viewModel,viewLifecycleOwner){ pass: PasswordData, acc: Access ->
+        allAdapter = PassAdapter(viewModel, viewLifecycleOwner) { pass: PasswordData, acc: Access ->
             if (acc != Access.HIDE) {
                 access = acc
                 passData = pass
@@ -78,10 +81,59 @@ class PassListFragment : Fragment() {
                 viewModel.resetAllAccess()
             }
         }
-        recyclerView.adapter = adapter
+        isAppAdapter =
+            PassAdapter(viewModel, viewLifecycleOwner) { pass: PasswordData, acc: Access ->
+                if (acc != Access.HIDE) {
+                    access = acc
+                    passData = pass
+                    if (pass.useFingerPrint) {
+                        verifyFingerPrint()
+                    } else {
+                        //todo - add password prompt
+                    }
+                } else {
+                    viewModel.resetAllAccess()
+                }
+            }
+        isWebAdapter =
+            PassAdapter(viewModel, viewLifecycleOwner) { pass: PasswordData, acc: Access ->
+                if (acc != Access.HIDE) {
+                    access = acc
+                    passData = pass
+                    if (pass.useFingerPrint) {
+                        verifyFingerPrint()
+                    } else {
+                        //todo - add password prompt
+                    }
+                } else {
+                    viewModel.resetAllAccess()
+                }
+            }
+
+        recyclerView.adapter = allAdapter
         viewModel.getAllId().asLiveData().observe(this.viewLifecycleOwner) {
-            val lst = it
-            adapter.submitList(lst)
+            allAdapter.submitList(it)
+            if (it.isEmpty()) {
+                Log.i(TAG, "list given is empty")
+                binding.emptyListTextView.visibility = View.VISIBLE
+            } else {
+                Log.i(TAG, "list is not empty")
+                binding.emptyListTextView.visibility = View.GONE
+            }
+        }
+
+        viewModel.getWeb().asLiveData().observe(this.viewLifecycleOwner) {
+            isWebAdapter.submitList(it)
+            if (it.isEmpty()) {
+                Log.i(TAG, "list given is empty")
+                binding.emptyListTextView.visibility = View.VISIBLE
+            } else {
+                Log.i(TAG, "list is not empty")
+                binding.emptyListTextView.visibility = View.GONE
+            }
+        }
+        viewModel.getApp().asLiveData().observe(this.viewLifecycleOwner) {
+            isAppAdapter.submitList(it)
             if (it.isEmpty()) {
                 Log.i(TAG, "list given is empty")
                 binding.emptyListTextView.visibility = View.VISIBLE
@@ -92,7 +144,7 @@ class PassListFragment : Fragment() {
         }
 
         appDataStore = AppDataStore(requireContext())
-        appDataStore.userMasterPasswordFlow.asLiveData().observe(viewLifecycleOwner, {
+        appDataStore.userMasterPasswordFlow.asLiveData().observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 binding.addFab.setOnClickListener {
                     Toast.makeText(
@@ -117,7 +169,7 @@ class PassListFragment : Fragment() {
                     )
                 }
             }
-        })
+        }
     }
 
     private fun afterSuccess() {
@@ -153,7 +205,7 @@ class PassListFragment : Fragment() {
         super.onPause()
     }
 
-    //todo - fingerprint functions fingerprint functions fingerprint functions fingerprint functions functions functions functions
+    //-----------------------------------------------------------------------------------fingerPrint
     private var cancellationSignal: CancellationSignal? = null
     private val authenticationCallback: BiometricPrompt.AuthenticationCallback
         get() =
@@ -217,6 +269,15 @@ class PassListFragment : Fragment() {
         }
     }
 
+    //-------------------------------------------------------------------------------password-prompt
+    private fun showPasswordPrompt() {
+        val alertDialog =
+            AlertDialog.Builder(context)
+                .setTitle("Password")
+                .setMessage("Enter Master Password To Access Password for ")
+    }
+
+    //----------------------------------------------------------------------------------options-menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -225,17 +286,17 @@ class PassListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.filter_web_service -> {
-                viewModel.getWeb()
+                recyclerView.adapter = isWebAdapter
                 Toast.makeText(requireContext(), "web showing", Toast.LENGTH_SHORT).show()
                 return true
             }
             R.id.filter_application_service -> {
-                viewModel.getApp()
+                recyclerView.adapter = isAppAdapter
                 Toast.makeText(requireContext(), "application showing", Toast.LENGTH_SHORT).show()
                 return true
             }
             R.id.show_all -> {
-                viewModel.getAll()
+                recyclerView.adapter = allAdapter
                 Toast.makeText(requireContext(), "all showing", Toast.LENGTH_SHORT).show()
                 return true
             }
@@ -244,4 +305,5 @@ class PassListFragment : Fragment() {
             }
         }
     }
+    //--------------------------------------------------------------------------fragment-class-close
 }

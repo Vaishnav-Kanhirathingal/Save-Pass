@@ -11,7 +11,6 @@ import kotlin.coroutines.CoroutineContext
 class PasswordViewModel(private val passwordDao: PasswordDao) : ViewModel() {
 
     private val TAG = "PasswordViewModel"
-    var passList: LiveData<List<PasswordData>> = passwordDao.getAllPassData().asLiveData()
 
     fun delete(passwordData: PasswordData) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -59,15 +58,12 @@ class PasswordViewModel(private val passwordDao: PasswordDao) : ViewModel() {
         return passwordDao.getAllPassDataId()
     }
 
-    fun getAll(){
-        passList = passwordDao.getAllPassData().asLiveData()
-    }
-    fun getWeb() {
-        passList = passwordDao.getAllSpecifiedService(false).asLiveData()
+    fun getWeb():Flow<List<Int>> {
+        return passwordDao.getAllSpecifiedService(false)
 
     }
-    fun getApp(){
-        passList = passwordDao.getAllSpecifiedService(true).asLiveData()
+    fun getApp():Flow<List<Int>>{
+        return passwordDao.getAllSpecifiedService(true)
     }
 }
 

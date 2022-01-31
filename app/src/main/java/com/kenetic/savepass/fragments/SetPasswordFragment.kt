@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.kenetic.savepass.databinding.FragmentSetPasswordBinding
@@ -25,19 +24,20 @@ class SetPasswordFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSetPasswordBinding.inflate(inflater, container, false)
+        binding = com.kenetic.savepass.databinding.FragmentSetPasswordBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         appDataStore = AppDataStore(requireContext())
-        appDataStore.userMasterPasswordFlow.asLiveData().observe(viewLifecycleOwner, {
+
+        appDataStore.userMasterPasswordFlow.asLiveData().observe(viewLifecycleOwner) {
             storedPassword = it
             if (it.isEmpty()) {
                 binding.oldPasswordEditText.visibility = View.GONE
             }
-        })
+        }
         binding.saveFab.setOnClickListener { passToNextFrag() }
 
     }
@@ -155,7 +155,7 @@ class SetPasswordFragment : Fragment() {
     }
 
     private fun nextScreen() {
-        Log.i(TAG,"next screen called")
+        Log.i(TAG, "next screen called")
         this@SetPasswordFragment.findNavController()
             .navigate(
                 SetPasswordFragmentDirections

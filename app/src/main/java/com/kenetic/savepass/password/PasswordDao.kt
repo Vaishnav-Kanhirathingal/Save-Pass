@@ -29,8 +29,8 @@ interface PasswordDao {
     fun resetAccessForAll()
 
     //----------------------------------------------------------------------------------------------
-    @Query("SELECT * FROM password_data WHERE is_an_application = :isAnApplication")
-    fun getAllSpecifiedService(isAnApplication:Boolean):Flow<List<PasswordData>>
+    @Query("SELECT id FROM password_data WHERE is_an_application = :isAnApplication")
+    fun getAllSpecifiedService(isAnApplication:Boolean):Flow<List<Int>>
 
     //----------------------------------------------------------------------------------------------
     @Query("SELECT * FROM password_data WHERE id = :idNum")

@@ -21,12 +21,12 @@
     <color name="app_icon_front">#FF08CFCF</color>
 
     <!--theme-->
-    <color name="primaryColor">#d81b60</color>
-    <color name="primaryLightColor">#ff5c8d</color>
-    <color name="primaryDarkColor">#a00037</color>
+    <color name="primaryColor">#aaaaaa</color>
+    <color name="primaryLightColor">#bbbbbb</color>
+    <color name="primaryDarkColor">#888888</color>
 
-    <color name="secondaryColor">#1565c0</color>
-    <color name="secondaryLightColor">#5e92f3</color>
+    <color name="secondaryColor">#dddddd</color>
+    <color name="secondaryLightColor">#eeeeee</color>
     <color name="secondaryDarkColor">#003c8f</color>
 
     <color name="primaryTextColor">#ffffff</color>

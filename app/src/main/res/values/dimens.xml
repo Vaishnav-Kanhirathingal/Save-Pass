@@ -4,7 +4,7 @@
     <dimen name="ruler_thickness">1dp</dimen>
     <dimen name="corner_radius">4dp</dimen>
     <dimen name="image_padding">4dp</dimen>
-    <dimen name="card_spacing">6dp</dimen>
+    <dimen name="card_spacing">8dp</dimen>
     <dimen name="card_margin">2dp</dimen>
     <dimen name="password_fragment_vertical">10dp</dimen>
     <dimen name="password_fragment_horizontal">10dp</dimen>
