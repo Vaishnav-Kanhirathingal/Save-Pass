@@ -28,7 +28,7 @@
                 android:id="@+id/service_name_sub_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"/>
+                android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -38,12 +38,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_app_margin"
-            app:endIconMode="password_toggle"
             android:hint="@string/service_password"
             app:boxCornerRadiusBottomEnd="@dimen/text_field_corner"
             app:boxCornerRadiusBottomStart="@dimen/text_field_corner"
             app:boxCornerRadiusTopEnd="@dimen/text_field_corner"
             app:boxCornerRadiusTopStart="@dimen/text_field_corner"
+            app:endIconMode="password_toggle"
             app:layout_constraintLeft_toLeftOf="@id/service_name_edit_text"
             app:layout_constraintRight_toRightOf="@id/service_name_edit_text"
             app:layout_constraintTop_toBottomOf="@id/service_name_edit_text">
@@ -51,8 +51,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/service_password_sub_et"
                 android:layout_width="match_parent"
-                android:inputType="textPassword"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>

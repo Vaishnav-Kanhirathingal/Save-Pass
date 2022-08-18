@@ -36,5 +36,4 @@
         app:layout_constraintRight_toRightOf="@id/password_recycler_view"
         app:layout_constraintTop_toTopOf="@id/password_recycler_view"
         tools:visibility="visible" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

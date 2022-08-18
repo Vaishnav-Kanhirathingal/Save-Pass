@@ -9,7 +9,7 @@
         android:id="@+id/passListFragment"
         android:name="com.kenetic.savepass.fragments.PassListFragment"
         android:label="Save Pass"
-        tools:layout="@layout/fragment_pass_list" >
+        tools:layout="@layout/fragment_pass_list">
         <action
             android:id="@+id/action_passListFragment_to_addOrEditFragment"
             app:destination="@id/addOrEditFragment" />
@@ -21,27 +21,27 @@
         android:id="@+id/addOrEditFragment"
         android:name="com.kenetic.savepass.fragments.AddOrEditFragment"
         android:label="fragment_add_or_edit"
-        tools:layout="@layout/fragment_add_or_edit" >
+        tools:layout="@layout/fragment_add_or_edit">
         <action
             android:id="@+id/action_addOrEditFragment_to_passListFragment"
             app:destination="@id/passListFragment"
             app:popUpTo="@id/passListFragment" />
         <argument
             android:name="service_name"
-            app:argType="string"
-            android:defaultValue="" />
+            android:defaultValue=""
+            app:argType="string" />
         <argument
             android:name="service_password"
-            app:argType="string"
-            android:defaultValue="" />
+            android:defaultValue=""
+            app:argType="string" />
         <argument
             android:name="is_an_application"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
         <argument
             android:name="use_finger_print"
-            app:argType="boolean"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            app:argType="boolean" />
         <argument
             android:name="is_being_updated"
             app:argType="boolean" />
@@ -52,7 +52,7 @@
     <fragment
         android:id="@+id/setPasswordFragment"
         android:name="com.kenetic.savepass.fragments.SetPasswordFragment"
-        android:label="Set Master Password" >
+        android:label="Set Master Password">
         <action
             android:id="@+id/action_setPasswordFragment_to_passListFragment"
             app:destination="@id/passListFragment"

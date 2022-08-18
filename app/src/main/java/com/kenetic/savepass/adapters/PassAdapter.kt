@@ -13,7 +13,6 @@ import com.kenetic.savepass.databinding.PassListBinding
 import com.kenetic.savepass.password.PassEnum.Access
 import com.kenetic.savepass.password.PasswordData
 import com.kenetic.savepass.password.PasswordViewModel
-import java.lang.Exception
 
 private const val TAG = "PassAdapter"
 
@@ -101,8 +100,8 @@ class PassAdapter(
         viewModel.getById(getItem(position)).asLiveData().observe(lifecycleOwner) {
             try {
                 holder.bind(it)
-            }catch (e:Exception){
-                Log.e(TAG,"PassData passed = null")
+            } catch (e: Exception) {
+                Log.e(TAG, "PassData passed = null")
                 e.printStackTrace()
             }
         }

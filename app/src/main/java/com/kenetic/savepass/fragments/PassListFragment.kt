@@ -295,7 +295,7 @@ class PassListFragment : Fragment() {
             confirm.setOnClickListener {
                 Log.i(
                     promptTAG,
-                    "text = ${masterPasswordEditText.text.toString()}, saved password = ${storedPass}"
+                    "text = ${masterPasswordEditText.text.toString()}, saved password = $storedPass"
                 )
                 if (masterPasswordEditText.text.toString() == storedPass) {
                     afterSuccess()

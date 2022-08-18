@@ -17,7 +17,7 @@ interface PasswordDao {
     suspend fun deletePassData(passwordData: PasswordData)
 
     @Query("SELECT * FROM password_data")
-    fun getAllPassData():Flow<List<PasswordData>>
+    fun getAllPassData(): Flow<List<PasswordData>>
 
     @Query("SELECT id FROM password_data")
     fun getAllPassDataId(): Flow<List<Int>>
@@ -30,9 +30,9 @@ interface PasswordDao {
 
     //----------------------------------------------------------------------------------------------
     @Query("SELECT id FROM password_data WHERE is_an_application = :isAnApplication")
-    fun getAllSpecifiedService(isAnApplication:Boolean):Flow<List<Int>>
+    fun getAllSpecifiedService(isAnApplication: Boolean): Flow<List<Int>>
 
     //----------------------------------------------------------------------------------------------
     @Query("SELECT * FROM password_data WHERE id = :idNum")
-    fun getById(idNum:Int):Flow<PasswordData>
+    fun getById(idNum: Int): Flow<PasswordData>
 }
